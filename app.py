@@ -46,8 +46,8 @@ st.markdown(
     }
     .main-card {
         flex: 0 0 auto;
-        max-width: 860px;
-        min-width: 860px;
+        max-width: 750px;
+        min-width: 470px;
         background: #fff;
         border-radius: 22px;
         border: 2.5px solid #e3e6f3;
@@ -60,7 +60,6 @@ st.markdown(
         position: relative;
         z-index: 2;
     }
-    /* 입력란과 파일 업로드(드래그앤드랍) 영역 스타일 */
     input[type="text"] {
         background-color: #fff !important;
         border: 2px solid #7a5cff !important;
@@ -85,17 +84,17 @@ st.markdown(
         border-color: #4b2cff !important;
         background-color: #f3f0ff !important;
     }
-    /* 그라데이션 줄 애니메이션 */
     .main-divider {
-        width: 120px;
-        height: 5px;
+        width: 80px;
+        height: 10px;
         background: linear-gradient(90deg, #9D5CFF 10%, #5CFFD1 90%);
-        border-radius: 2px;
+        border-radius: 5px;
         margin: 1.5rem auto 1.5rem auto;
-        opacity: 0.7;
+        opacity: 0.85;
         background-size: 200% 100%;
         background-position: 0% 0%;
         animation: gradient-move 3s ease-in-out infinite alternate;
+        box-shadow: 0 2px 12px #bbaaff44;
     }
     @keyframes gradient-move {
         0% { background-position: 0% 0%; }
@@ -209,23 +208,31 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# --- 사이드바 메뉴 구성 ---
-with st.sidebar:
-    st.markdown('<div class="sidebar-section-title">common</div>', unsafe_allow_html=True)
-    st.button("🏠 홈", on_click=lambda: st.session_state.update(page='홈'), use_container_width=True)
-    st.button("📄 한글 ➡️ PDF 일괄변환", on_click=lambda: st.session_state.update(page='PDF 일괄 변환'), use_container_width=True)
-    st.button("📋 도급위탁용역 점검표 생성", on_click=lambda: st.session_state.update(page='도급위탁용역 점검표 생성'), use_container_width=True)
-    st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
-    st.markdown('<div class="sidebar-section-title">custom</div>', unsafe_allow_html=True)
-    with st.expander("💧 수도시설과", expanded=(st.session_state.get('page') in ["급수공사 공문 자동화", "정수기 신고"])):
-        st.button("└ 급수공사 공문 자동화", on_click=lambda: st.session_state.update(page='급수공사 공문 자동화'), use_container_width=True)
-        st.button("└ 정수기 신고", on_click=lambda: st.session_state.update(page='정수기 신고'), use_container_width=True)
-
+# 페이지 상태 관리
 if 'page' not in st.session_state:
     st.session_state.page = '홈'
 
+with st.sidebar:
+    st.markdown('<div class="sidebar-section-title">common</div>', unsafe_allow_html=True)
+    if st.button("🏠 홈", use_container_width=True):
+        st.session_state.page = '홈'
+    if st.button("🧑‍🤝‍🧑 MBTI 검사기", use_container_width=True):
+        st.session_state.page = 'MBTI 검사기'
+    if st.button("📄 한글 ➡️ PDF 일괄변환", use_container_width=True):
+        st.session_state.page = 'PDF 일괄 변환'
+    if st.button("📋 도급위탁용역 점검표 생성", use_container_width=True):
+        st.session_state.page = '도급위탁용역 점검표 생성'
+    st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
+    st.markdown('<div class="sidebar-section-title">custom</div>', unsafe_allow_html=True)
+    with st.expander("💧 수도시설과", expanded=(st.session_state.get('page') in ["급수공사 공문 자동화", "정수기 신고"])):
+        if st.button("└ 급수공사 공문 자동화", use_container_width=True):
+            st.session_state.page = '급수공사 공문 자동화'
+        if st.button("└ 정수기 신고", use_container_width=True):
+            st.session_state.page = '정수기 신고'
+
 page_to_run_map = {
     '홈': None,
+    'MBTI 검사기': 'page6.py',
     '급수공사 공문 자동화': 'page1.py',
     '정수기 신고': 'page2.py',
     'PDF 일괄 변환': 'page3.py',
