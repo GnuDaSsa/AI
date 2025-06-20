@@ -1,6 +1,6 @@
-import streamlit as st
 import importlib.util
 import os
+import streamlit as st
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -25,11 +25,39 @@ def load_and_run_page(file_name):
 
 st.set_page_config(page_title="GnuDaS_GPT_World", layout="wide")
 
+# 다크모드/라이트모드 모두 가시성 좋은 색상 조합 적용
 st.markdown(
     """
     <style>
     body, .stApp {
         background: #f4f6fb !important;
+        color: #222222 !important;
+    }
+    @media (prefers-color-scheme: dark) {
+        body, .stApp {
+            background: #23272f !important;
+            color: #f4f6fb !important;
+        }
+        .main-card {
+            background: #2d3140 !important;
+            border: 2.5px solid #444 !important;
+        }
+        input[type="text"] {
+            background-color: #23272f !important;
+            border: 2px solid #7a5cff !important;
+            color: #f4f6fb !important;
+        }
+        input[type="text"]::placeholder {
+            color: #bbaaff !important;
+        }
+        section[data-testid="stFileUploaderDropzone"] {
+            background-color: #23272f !important;
+            border: 2px dashed #7a5cff !important;
+        }
+        section[data-testid="stFileUploaderDropzone"]:hover {
+            border-color: #4b2cff !important;
+            background-color: #2d3140 !important;
+        }
     }
     .main-card-row {
         display: flex;
@@ -48,10 +76,10 @@ st.markdown(
         flex: 0 0 auto;
         max-width: 750px;
         min-width: 470px;
-        background: #fff;
+        background: #fff !important;
         border-radius: 22px;
-        border: 2.5px solid #e3e6f3;
-        box-shadow: 0 8px 36px 0 #bbaaff22, 0 2px 12px #e0e0ff33;
+        border: 2.5px solid #e0e0e0 !important;
+        box-shadow: 0 8px 36px 0 #00000022, 0 2px 12px #00000033;
         padding: 2.7rem 2.7rem 2.2rem 2.7rem;
         margin: 0 0.5vw;
         display: flex;
@@ -67,7 +95,7 @@ st.markdown(
         font-weight: bold !important;
         border-radius: 8px !important;
         padding: 0.5em 0.8em !important;
-        box-shadow: 0 2px 8px #e0e0ff33 !important;
+        box-shadow: 0 2px 8px #00000033 !important;
     }
     input[type="text"]::placeholder {
         color: #7a5cff !important;
@@ -78,11 +106,11 @@ st.markdown(
         background-color: #fff !important;
         border: 2px dashed #7a5cff !important;
         border-radius: 10px !important;
-        box-shadow: 0 2px 8px #e0e0ff33 !important;
+        box-shadow: 0 2px 8px #00000033 !important;
     }
     section[data-testid="stFileUploaderDropzone"]:hover {
         border-color: #4b2cff !important;
-        background-color: #f3f0ff !important;
+        background-color: #f4f6fb !important;
     }
     .main-divider {
         width: 80px;
@@ -118,7 +146,7 @@ st.markdown(
         position: relative;
         margin: 2.2rem auto 1.5rem auto;
         animation: spin 25s linear infinite;
-        filter: drop-shadow(0 6px 24px #bbaaff55);
+        filter: drop-shadow(0 6px 24px #00000055);
     }
     .orbital-shape {
         position: absolute;
@@ -168,7 +196,7 @@ st.markdown(
     .main-lab {
         text-align: center;
         font-size: 1.08rem;
-        color: #444;
+        color: #555;
         font-weight: 500;
         margin-bottom: 1.2rem;
         letter-spacing: 0.2px;
@@ -176,7 +204,7 @@ st.markdown(
     .main-desc {
         text-align: center;
         font-size: 1.08rem;
-        color: #555;
+        color: #666;
         margin-bottom: 0.7rem;
         font-weight: 400;
     }
@@ -187,7 +215,7 @@ st.markdown(
         font-style: italic;
         margin-bottom: 2.2rem;
         letter-spacing: 0.2px;
-        text-shadow: 0 1px 6px #e0e0ff33;
+        text-shadow: 0 1px 6px #00000033;
     }
     .sidebar-section-title {
         font-size: 1.05rem;
