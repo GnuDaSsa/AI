@@ -9,20 +9,47 @@ import os
 
 # --- ODT 파일 수정을 위한 라이브러리 ---
 from odf.opendocument import load
-# --- 수정된 부분: 필요한 객체를 정확히 import ---
 from odf.element import Element, Text
 from odf import namespaces
 
-# 이 파일의 모든 Streamlit UI 및 로직은 run() 함수 내에 정의됩니다.
 def run():
-    # ODT 템플릿 파일 경로
+    # 입력란과 파일 업로드(드래그앤드랍) 가시성 개선 스타일
+    st.markdown("""
+    <style>
+    input[type="text"] {
+        background-color: #fff !important;
+        border: 2px solid #7a5cff !important;
+        color: #222 !important;
+        font-weight: bold !important;
+        border-radius: 8px !important;
+        padding: 0.5em 0.8em !important;
+        box-shadow: 0 2px 8px #e0e0ff33 !important;
+    }
+    input[type="text"]::placeholder {
+        color: #7a5cff !important;
+        opacity: 1 !important;
+        font-weight: bold !important;
+    }
+    /* 파일 업로드(드래그앤드랍) 영역 스타일 */
+    section[data-testid="stFileUploaderDropzone"] {
+        background-color: #fff !important;
+        border: 2px dashed #7a5cff !important;
+        border-radius: 10px !important;
+        box-shadow: 0 2px 8px #e0e0ff33 !important;
+    }
+    section[data-testid="stFileUploaderDropzone"]:hover {
+        border-color: #4b2cff !important;
+        background-color: #f3f0ff !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
     template_paths_by_sheet = {
         "점검표1": r"C:\\Users\\Owner\\Desktop\\사진우\\AI\\도급위탁용역자동화\\서식\\점검표(60일 이상).odt",
         "점검표2": r"C:\\Users\\Owner\\Desktop\\사진우\\AI\\도급위탁용역자동화\\서식\\점검표(60일 이하).odt",
         "점검표3": r"C:\\Users\\Owner\\Desktop\\사진우\\AI\\도급위탁용역자동화\\서식\\점검표3.odt"
     }
 
-    # 의무(tag) 그룹 정의
     full_compliance_groups = [
         (17, 18, 19, ["[Q]", "[R]", "[S]"]), (20, 21, 22, ["[T]", "[U]", "[V]"]),
         (23, 24, 25, ["[W]", "[X]", "[Y]"]), (26, 27, 28, ["[Z]", "[AA]", "[AB]"]),
@@ -36,14 +63,6 @@ def run():
         "점검표3": full_compliance_groups
     }
 
-    st.markdown("""
-    <style>
-    div.stTextInput > div > input { max-width: 200px; }
-    [data-baseweb="input"] > input::placeholder { color: #999 !important; }
-    </style>
-    """, unsafe_allow_html=True)
-
-    # 세션 상태 초기화 (기존과 동일)
     if "extracted_page4" not in st.session_state: st.session_state.extracted_page4 = []
     if "dates_page4" not in st.session_state: st.session_state.dates_page4 = []
     if "apply_all_checkbox_page4" not in st.session_state: st.session_state.apply_all_checkbox_page4 = False
@@ -51,11 +70,12 @@ def run():
 
     left_col, right_col = st.columns([1, 1])
 
-    # UI 및 데이터 추출 로직 (기존과 거의 동일)
     with left_col:
         c1, c2 = st.columns([1, 1])
-        with c1: team_leader = st.text_input("팀장님 성함", max_chars=10, key="team_leader_page4")
-        with c2: manager = st.text_input("과장님 성함", max_chars=10, key="manager_page4")
+        with c1:
+            team_leader = st.text_input("팀장님 성함", max_chars=10, key="team_leader_page4")
+        with c2:
+            manager = st.text_input("과장님 성함", max_chars=10, key="manager_page4")
         uploaded_file = st.file_uploader("엑셀 파일을 업로드하세요", type=["xlsx"], key="uploaded_file_page4")
         generate_btn = st.button("생성", key="generate_btn_page4")
 
@@ -63,7 +83,6 @@ def run():
         elif generate_btn and not uploaded_file: st.warning("엑셀 파일을 업로드하세요.")
 
         if generate_btn and team_leader and manager and uploaded_file:
-            # 데이터 추출 함수 (기존과 동일)
             def extract_data_from_sheets():
                 wb = openpyxl.load_workbook(uploaded_file)
                 target_sheet_names_prefixes = ["점검표1", "점검표2", "점검표3"]
@@ -108,7 +127,6 @@ def run():
 
     with left_col:
         if st.session_state.extracted_page4:
-            # 날짜 입력 UI (기존과 동일)
             c0, c1, c2, c3 = st.columns([2, 1, 1, 0.5]); first_item = st.session_state.extracted_page4[0]
             with c0: st.write(f"■ {first_item['사업명']}")
             with c1: st.text_input("점검일자", key="date1_page4_0", placeholder="YYYYMMDD")
@@ -124,18 +142,10 @@ def run():
                 with c2: st.text_input("준공검사일", key=f"date2_page4_{idx}", label_visibility="collapsed", value=st.session_state.get(f'date2_page4_{idx}', ''))
 
             if st.button("최종 생성", key="final_generate_btn_page4"):
-                # --- 완전히 새로 작성된 안정적인 헬퍼 함수 ---
                 def find_and_replace_text(element, find_str, replace_str):
-                    """
-                    요소(element)와 그 모든 자식 요소를 재귀적으로 탐색하며
-                    텍스트 노드(Text)를 찾아 내용을 교체합니다.
-                    """
-                    # element의 자식 노드 리스트를 복사해서 순회 (원본 리스트 변경에 대비)
                     for child in list(element.childNodes):
-                        # 만약 자식이 텍스트 노드이면, 그 내용(data)에서 문자열을 찾아 교체합니다.
                         if isinstance(child, Text):
                             child.data = child.data.replace(find_str, replace_str)
-                        # 만약 자식이 일반 요소(Element)이면, 그 안으로 다시 들어가 재귀 호출합니다.
                         elif isinstance(child, Element):
                             find_and_replace_text(child, find_str, replace_str)
 
@@ -158,7 +168,6 @@ def run():
                             tag_to_mark = data.get(f"의무{i}")
                             for tag in tags: replacements[tag] = "○" if tag == tag_to_mark else ""
                         
-                        # 새로 만든 안전한 함수 호출
                         for find, replace in replacements.items():
                             if find: find_and_replace_text(doc.text, find, str(replace))
                         
