@@ -371,14 +371,14 @@ def run():
             st.markdown("<br>", unsafe_allow_html=True)
             st.markdown(f"""
             <div class="big-font"><b>각 지표별 비율</b></div>
-            <div class="percent-bar"><div class="percent-bar-inner" style="width:{e_pct}%;">E {e_pct}%</div></div>
-            <div class="percent-bar"><div class="percent-bar-inner" style="width:{i_pct}%;">I {i_pct}%</div></div>
-            <div class="percent-bar"><div class="percent-bar-inner" style="width:{s_pct}%;">S {s_pct}%</div></div>
-            <div class="percent-bar"><div class="percent-bar-inner" style="width:{n_pct}%;">N {n_pct}%</div></div>
-            <div class="percent-bar"><div class="percent-bar-inner" style="width:{t_pct}%;">T {t_pct}%</div></div>
-            <div class="percent-bar"><div class="percent-bar-inner" style="width:{f_pct}%;">F {f_pct}%</div></div>
-            <div class="percent-bar"><div class="percent-bar-inner" style="width:{j_pct}%;">J {j_pct}%</div></div>
-            <div class="percent-bar"><div class="percent-bar-inner" style="width:{p_pct}%;">P {p_pct}%</div></div>
+            <div class="percent-bar"><div class="percent-bar-inner" style="width:{e_pct}%">E {e_pct}%</div></div>
+            <div class="percent-bar"><div class="percent-bar-inner" style="width:{i_pct}%">I {i_pct}%</div></div>
+            <div class="percent-bar"><div class="percent-bar-inner" style="width:{s_pct}%">S {s_pct}%</div></div>
+            <div class="percent-bar"><div class="percent-bar-inner" style="width:{n_pct}%">N {n_pct}%</div></div>
+            <div class="percent-bar"><div class="percent-bar-inner" style="width:{t_pct}%">T {t_pct}%</div></div>
+            <div class="percent-bar"><div class="percent-bar-inner" style="width:{f_pct}%">F {f_pct}%</div></div>
+            <div class="percent-bar"><div class="percent-bar-inner" style="width:{j_pct}%">J {j_pct}%</div></div>
+            <div class="percent-bar"><div class="percent-bar-inner" style="width:{p_pct}%">P {p_pct}%</div></div>
             """, unsafe_allow_html=True)
 
             info = MBTI_INFO.get(mbti, None)
@@ -398,8 +398,10 @@ def run():
             else:
                 st.info("MBTI 해설 정보를 찾을 수 없습니다.")
 
+            # 결과의 맨 마지막에만 '다시 검사하기' 버튼
             if st.button("다시 검사하기", use_container_width=True):
                 for key in ["mbti_answers", "mbti_step", "mbti_q_order"]:
                     if key in st.session_state:
                         del st.session_state[key]
                 st.rerun()
+                return

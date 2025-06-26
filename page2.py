@@ -4,6 +4,8 @@ from odf.opendocument import load
 from odf.text import P, Span, H, ListItem
 import os
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # (필요시 추가 CSS를 이용하여 입력 바의 너비를 조정할 수 있음)
 st.markdown(
     """
@@ -52,8 +54,7 @@ def run():
                 st.error("모든 필드를 입력해주세요.")
             else:
                 try:
-                    # ODT 서식 파일 경로 (파일명: 수리.odt)
-                    filepath = r"C:\Users\Owner\Desktop\사진우\AI\gnudasAI\서식\정수기자동화\수리.odt"
+                    filepath = os.path.join(BASE_DIR, "서식", "page1", "정수기자동화", "수리.odt")
                     with open(filepath, "rb") as f:
                         odt_data = f.read()
                     
@@ -87,7 +88,7 @@ def run():
     
     with right_col:
         st.markdown("### 예시 이미지")
-        image_path = r"C:\Users\Owner\Desktop\사진우\AI\gnudasAI\서식\정수기자동화\image\example.png"
+        image_path = os.path.join(BASE_DIR, "서식", "page1", "정수기자동화", "image", "example.png")
         if os.path.exists(image_path):
             st.image(image_path, caption="예시", use_container_width=True)
         else:

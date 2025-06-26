@@ -1,6 +1,6 @@
+import streamlit as st
 import importlib.util
 import os
-import streamlit as st
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -25,10 +25,10 @@ def load_and_run_page(file_name):
 
 st.set_page_config(page_title="GnuDaS_GPT_World", layout="wide")
 
-# 다크모드/라이트모드 모두 가시성 좋은 색상 조합 적용
 st.markdown(
     """
     <style>
+    /* 전체 배경과 글자색: 라이트/다크 모두에서 가시성 확보 */
     body, .stApp {
         background: #f4f6fb !important;
         color: #222222 !important;
@@ -246,10 +246,14 @@ with st.sidebar:
         st.session_state.page = '홈'
     if st.button("🧑‍🤝‍🧑 MBTI 검사기", use_container_width=True):
         st.session_state.page = 'MBTI 검사기'
+    if st.button("🎭 테토에겐 테스트", use_container_width=True):
+        st.session_state.page = '테토에겐 테스트'
     if st.button("📄 한글 ➡️ PDF 일괄변환", use_container_width=True):
         st.session_state.page = 'PDF 일괄 변환'
     if st.button("📋 도급위탁용역 점검표 생성", use_container_width=True):
         st.session_state.page = '도급위탁용역 점검표 생성'
+    if st.button("📰 생성형 AI 보도자료 생성기", use_container_width=True):
+        st.session_state.page = '생성형 AI 보도자료 생성기'
     st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
     st.markdown('<div class="sidebar-section-title">custom</div>', unsafe_allow_html=True)
     with st.expander("💧 수도시설과", expanded=(st.session_state.get('page') in ["급수공사 공문 자동화", "정수기 신고"])):
@@ -261,10 +265,12 @@ with st.sidebar:
 page_to_run_map = {
     '홈': None,
     'MBTI 검사기': 'page6.py',
+    '테토에겐 테스트': 'page7.py',
     '급수공사 공문 자동화': 'page1.py',
     '정수기 신고': 'page2.py',
     'PDF 일괄 변환': 'page3.py',
-    '도급위탁용역 점검표 생성': 'page4.py'
+    '도급위탁용역 점검표 생성': 'page4.py',
+    '생성형 AI 보도자료 생성기': 'page5.py',
 }
 page_file = page_to_run_map.get(st.session_state.page)
 
@@ -294,3 +300,4 @@ else:
             </div>
         </div>
     """, unsafe_allow_html=True)
+

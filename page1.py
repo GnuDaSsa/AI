@@ -7,6 +7,9 @@ from odf.text import P, Span, H, ListItem
 import time
 from datetime import datetime, timedelta
 import zipfile
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def number_to_korean(n):
     units = ['', '만', '억', '조', '경', '해']
@@ -68,7 +71,7 @@ def replace_text_in_elements(doc, replacements):
                 replace_text_in_node(node, search_text, replace_text)
 
 def create_approval_document(amount4, address, consumer, sentence, 공사유형, amount2, amount3, input_date, amount1, amount5, diameter):
-    filepath = "C:/Users/Owner/Desktop/사진우/AI/Gnudas GPT/서식/승인.odt" if amount4 == "-" else "C:/Users/Owner/Desktop/사진우/AI/Gnudas GPT/서식/승인원인자.odt"
+    filepath = os.path.join(BASE_DIR, "서식", "page1", "승인.odt") if amount4 == "-" else os.path.join(BASE_DIR, "서식", "page1", "승인원인자.odt")
     try:
         with open(filepath, "rb") as file:
             doc = load(io.BytesIO(file.read()))
@@ -97,7 +100,7 @@ def create_approval_document(amount4, address, consumer, sentence, 공사유형,
         
         approval_file_name = "승인_공문.odt" if amount4 == "-" else "승인원인자_공문.odt"
         
-        cause_excel_path = "C:/Users/Owner/Desktop/사진우/AI/Gnudas GPT/서식/원인자엑셀.xlsx"
+        cause_excel_path = os.path.join(BASE_DIR, "서식", "page1", "원인자엑셀.xlsx")
         wb_cause = load_workbook(cause_excel_path)
         ws_cause = wb_cause.active
         
@@ -149,7 +152,7 @@ def run():
                 
                 if st.button("공문 생성"):
                     try:
-                        original_filepath = "C:/Users/Owner/Desktop/사진우/AI/Gnudas GPT/서식/급수공사 집행 건의 서식.odt"
+                        original_filepath = os.path.join(BASE_DIR, "서식", "page1", "급수공사 집행 건의 서식.odt")
                         with open(original_filepath, "rb") as file:
                             odt_file = file.read()
                         doc = load(io.BytesIO(odt_file))
