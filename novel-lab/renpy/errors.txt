@@ -1,0 +1,9 @@
+﻿I'm sorry, but errors were detected in your script. Please correct the
+errors listed below, and try again.
+
+
+File "game/script.rpy", line 2: is not terminated with a newline. (Check strings and parenthesis.)
+    define p = Character("二쇱씤怨?, color="
+
+Ren'Py Version: Ren'Py 8.3.7.25031702
+Fri Mar  6 15:34:18 2026

@@ -1,0 +1,12 @@
+{
+  "feature": "first-visual-novel",
+  "phase": "design",
+  "matchRate": 0,
+  "iterationCount": 0,
+  "updatedAt": "2026-03-06T00:00:00Z",
+  "openGaps": [
+    "Ren'Py engine not installed in this folder",
+    "Artwork and audio assets not created yet",
+    "Prototype has not been playtested"
+  ]
+}
