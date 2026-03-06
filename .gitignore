@@ -1,0 +1,8 @@
+﻿novel-lab/renpy/errors.txt
+novel-lab/renpy/log.txt
+novel-lab/renpy/traceback.txt
+novel-lab/renpy/game/cache/
+novel-lab/renpy/game/saves/
+novel-lab/renpy/game/*.rpyc
+novel-lab/renpy/game/*.rpyb
+novel-lab/renpy/game/gui.rpyc
