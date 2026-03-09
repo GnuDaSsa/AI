@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Codex Popup</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="command-bar">
+        <div class="brand-block">
+          <div class="eyebrow">Occult Office Monitor</div>
+          <h1>Codex Popup</h1>
+          <p id="sessionsDir" class="path"></p>
+        </div>
+        <div class="button-row">
+          <button id="launchButton" class="pixel-button accent">Launch Codex</button>
+          <button id="openDirButton" class="pixel-button">Open Sessions</button>
+        </div>
+      </header>
+
+      <section class="status-strip" id="summary"></section>
+
+      <main class="layout">
+        <section class="office-panel">
+          <div class="panel-head">
+            <div>
+              <div class="eyebrow">Field View</div>
+              <h2>Tokyo Branch Office</h2>
+            </div>
+            <span id="timestampLabel" class="timestamp"></span>
+          </div>
+          <div id="facilityStage" class="facility-stage"></div>
+        </section>
+
+        <aside class="intel-panel">
+          <div class="panel-head">
+            <div>
+              <div class="eyebrow">Mission Feed</div>
+              <h2>Agent Intel</h2>
+            </div>
+          </div>
+          <div id="missionBoard" class="mission-board"></div>
+        </aside>
+      </main>
+    </div>
+    <script src="./app.js"></script>
+  </body>
+  </html>
