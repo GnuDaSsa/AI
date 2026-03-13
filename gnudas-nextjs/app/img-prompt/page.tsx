@@ -71,8 +71,14 @@ export default function ImgPromptPage() {
 
   async function generateImage() {
     if (!generatedPrompt) return;
-    if (!isAdmin && !apiKey.trim()) return;
-    if (isAdmin && !adminPassword.trim()) return;
+    if (!isAdmin && !apiKey.trim()) {
+      setImageError('이미지 생성을 위해 Google AI API 키를 입력해주세요.');
+      return;
+    }
+    if (isAdmin && !adminPassword.trim()) {
+      setImageError('관리자 비밀번호를 입력해주세요.');
+      return;
+    }
 
     setLoadingImage(true);
     setImageDataUrl(null);

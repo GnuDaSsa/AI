@@ -22,14 +22,20 @@ Be specific about lighting, composition, mood, and visual details. Return ONLY v
   try {
     const response = await ai.models.generateContent({
       model: 'gemini-2.0-flash',
-      contents: [{ role: 'user', parts: [{ text: `${systemPrompt}\n\nUser description: ${prompt}` }] }],
-      config: { responseMimeType: 'application/json' },
+      contents: [{ role: 'user', parts: [{ text: `User description: ${prompt}` }] }],
+      config: {
+        systemInstruction: systemPrompt,
+        responseMimeType: 'application/json',
+      },
     });
 
     const text = response.text || '';
+    if (!text) {
+      return NextResponse.json({ error: '프롬프트 생성 결과가 비어있습니다.' }, { status: 500 });
+    }
     const parsed = JSON.parse(text);
 
-    return NextResponse.json({ prompt: parsed.prompt || text });
+    return NextResponse.json({ prompt: parsed.prompt || '' });
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });
   }
